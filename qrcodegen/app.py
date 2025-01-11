@@ -3,6 +3,7 @@ import qrcode
 import io
 from PIL import Image, ImageDraw, ImageFont
 import logging
+import os
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -67,7 +68,8 @@ def generate():
     img.save(buffer, format=format)
     buffer.seek(0)
 
-    return send_file(buffer, as_attachment=True, download_name=f'qr_code.{file_type}')
+    file_name = f"{label}.{file_type}" if label else f"qr_code.{file_type}"
+    return send_file(buffer, as_attachment=True, download_name=file_name)
 
 def add_label_to_qr(img, label):
     img = img.convert("RGBA")
@@ -76,7 +78,8 @@ def add_label_to_qr(img, label):
     label_img = Image.new("RGBA", (width, label_height), "white")
 
     draw = ImageDraw.Draw(label_img)
-    font = ImageFont.truetype("arialbd.ttf", 45)  # Use bold font and increase size
+    font_path = os.path.join(os.path.dirname(__file__), 'fonts', 'arialbd.ttf')
+    font = ImageFont.truetype(font_path, 45)  # Use bold font and increase size
     text_bbox = draw.textbbox((0, 0), label, font=font)
     text_width = text_bbox[2] - text_bbox[0]
     text_height = text_bbox[3] - text_bbox[1]
