@@ -18,6 +18,10 @@
   "build": {
     "env": {
       "LD_LIBRARY_PATH": "/usr/local/lib"
-    }
+    },
+    "commands": [
+      "apt-get update",
+      "apt-get install -y libjpeg62"
+    ]
   }
 }

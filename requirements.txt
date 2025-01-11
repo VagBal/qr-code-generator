@@ -6,4 +6,3 @@ MarkupSafe==2.0.1
 qrcode==7.3.1
 Werkzeug==2.0.2
 pillow==8.4.0
-libjpeg-turbo==2.1.0
