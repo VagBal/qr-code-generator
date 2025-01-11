@@ -3,8 +3,7 @@
   "builds": [
     {
       "src": "qrcodegen/app.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb" }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
@@ -13,8 +12,12 @@
       "dest": "qrcodegen/app.py"
     }
   ],
-  "env": { 
-    "LD_LIBRARY_PATH": "/usr/local/lib:$LD_LIBRARY_PATH" 
-  }, 
-  "buildCommand": "sh build.sh"
+  "env": {
+    "PYTHON_VERSION": "3.12.0"
+  },
+  "build": {
+    "env": {
+      "LD_LIBRARY_PATH": "/usr/local/lib"
+    }
+  }
 }
