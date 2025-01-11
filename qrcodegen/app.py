@@ -45,7 +45,7 @@ def preview():
 def generate():
     data = request.get_json()
     url = data.get('url')
-    label = data.get('label', '')
+    label = data.get('label')  # Remove default value here
     file_type = data.get('fileType', 'png')
 
     if not url:
@@ -68,7 +68,7 @@ def generate():
     img.save(buffer, format=format)
     buffer.seek(0)
 
-    file_name = f"{label}.{file_type}" if label else f"qr_code.{file_type}"
+    file_name = f"{str(label)}.{file_type}" if label else f"qr_code.{file_type}"
     return send_file(buffer, as_attachment=True, download_name=file_name)
 
 def add_label_to_qr(img, label):

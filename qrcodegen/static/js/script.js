@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     generateBtn.addEventListener('click', async () => {
         const url = urlInput.value;
-        const label = labelInput.value;
+        const label = labelInput.value;  // Remove default value here
         const fileType = fileTypeSelect.value;
 
         if (!url) {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const downloadUrl = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = downloadUrl;
-            a.download = `qr_code.${fileType}`;
+            a.download = `${label || 'qr_code'}.${fileType}`;
             document.body.appendChild(a);
             a.click();
             a.remove();
