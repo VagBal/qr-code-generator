@@ -11,16 +11,5 @@
       "src": "/(.*)",
       "dest": "qrcodegen/wsgi.py"
     }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        }
-      ]
-    }
   ]
 }
