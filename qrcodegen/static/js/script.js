@@ -5,13 +5,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewImage = document.getElementById('qrPreview');
     const generateBtn = document.getElementById('generateBtn');
 
+    // Check if all required elements exist in the HTML
+    if (!urlInput || !labelInput || !fileTypeSelect || !previewImage || !generateBtn) {
+        console.error('One or more required elements are missing in the HTML.');
+        return;
+    }
+
+    // Sanitize filename to avoid invalid characters
+    const sanitizeFilename = (name) => name.replace(/[^a-zA-Z0-9-_]/g, '_');
+
+    // Update the preview image
     const updatePreview = () => {
         const url = urlInput.value;
         const label = labelInput.value;
         const fileType = fileTypeSelect.value;
-        console.log(`Preview - URL: ${url}, Label: ${label}, FileType: ${fileType}`);  // Add logging
+
         if (url) {
-            previewImage.src = `/preview?url=${encodeURIComponent(url)}&label=${encodeURIComponent(label)}&fileType=${fileType}`;
+            const timestamp = new Date().getTime(); // Prevent caching
+            previewImage.src = `/preview?url=${encodeURIComponent(url)}&label=${encodeURIComponent(label)}&fileType=${fileType}&_=${timestamp}`;
             previewImage.classList.remove('hidden');
         } else {
             previewImage.src = '';
@@ -19,21 +30,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Attach event listeners for inputs
     urlInput.addEventListener('input', updatePreview);
     labelInput.addEventListener('input', updatePreview);
+    fileTypeSelect.addEventListener('change', updatePreview);
 
+    // Handle QR code generation and download
     generateBtn.addEventListener('click', async () => {
+        if (generateBtn.disabled) return; // Prevent duplicate clicks
+        generateBtn.disabled = true; // Disable the button during processing
+
         const url = urlInput.value;
-        const label = labelInput.value;
+        const label = sanitizeFilename(labelInput.value) || 'qr_code';
         const fileType = fileTypeSelect.value;
-        console.log(`Generate - URL: ${url}, Label: ${label}, FileType: ${fileType}`);  // Add logging
 
         if (!url) {
             alert('Please enter a URL.');
+            generateBtn.disabled = false;
             return;
         }
 
         try {
+            console.log('Sending request to generate QR code:', { url, label, fileType });
+
             const response = await fetch('/generate', {
                 method: 'POST',
                 headers: {
@@ -47,18 +66,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const downloadUrl = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = downloadUrl;
-                a.download = `${label || 'qr_code'}.${fileType}`;
-                console.log(`Downloading file: ${a.download}`);  // Add logging
+                a.download = `${label}.${fileType}`;
+                console.log(`Downloading file: ${a.download}`);
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
+                window.URL.revokeObjectURL(downloadUrl); // Clean up object URL
             } else {
-                console.error('Failed to generate QR code. Please try again.');
-                alert('Failed to generate QR code. Please try again.');
+                const errorText = await response.text();
+                console.error('Failed to generate QR code:', errorText);
+                alert('Failed to generate QR code: ' + errorText);
             }
         } catch (error) {
             console.error('Error generating QR code:', error);
             alert('Error generating QR code. Please try again.');
+        } finally {
+            generateBtn.disabled = false; // Re-enable the button
         }
     });
 });
