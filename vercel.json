@@ -2,21 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "qrcodegen/app.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb" }
+      "src": "Dockerfile",
+      "use": "@vercel/docker"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "qrcodegen/app.py"
+      "dest": "/"
     }
-  ],
-  "functions": {
-    "qrcodegen/app.py": {
-      "runtime": "python3.12",
-      "includeFiles": ["libjpeg.so.62"]
-    }
-  }
+  ]
 }
