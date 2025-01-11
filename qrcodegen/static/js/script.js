@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = urlInput.value;
         const label = labelInput.value;
         const fileType = fileTypeSelect.value;
+        console.log(`Preview - URL: ${url}, Label: ${label}, FileType: ${fileType}`);  // Add logging
         if (url) {
             previewImage.src = `/preview?url=${encodeURIComponent(url)}&label=${encodeURIComponent(label)}&fileType=${fileType}`;
             previewImage.classList.remove('hidden');
@@ -23,8 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     generateBtn.addEventListener('click', async () => {
         const url = urlInput.value;
-        const label = labelInput.value;  // Remove default value here
+        const label = labelInput.value;
         const fileType = fileTypeSelect.value;
+        console.log(`Generate - URL: ${url}, Label: ${label}, FileType: ${fileType}`);  // Add logging
 
         if (!url) {
             alert('Please enter a URL.');
