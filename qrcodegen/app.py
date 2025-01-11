@@ -68,8 +68,8 @@ def generate():
     img.save(buffer, format=format)
     buffer.seek(0)
 
-    file_name = f"{str(label)}.{file_type}" if label else f"qr_code.{file_type}"
-    return send_file(buffer, as_attachment=True, download_name=file_name)
+    file_name = f"{label}.{file_type}" if label else f"qr_code.{file_type}"
+    return send_file(buffer, as_attachment=True, download_name=file_name, mimetype=f"image/{file_type}")
 
 def add_label_to_qr(img, label):
     img = img.convert("RGBA")
