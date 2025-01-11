@@ -73,9 +73,7 @@ def generate():
 
     file_name = f"{label}.{file_type}" if label else f"qr_code.{file_type}"
     logging.debug(f"File name for download: {file_name}")
-    response = send_file(buffer, as_attachment=True, mimetype=f"image/{file_type}")
-    response.headers['Content-Disposition'] = f'attachment; filename="{file_name}"'
-    return response
+    return send_file(buffer, as_attachment=True, download_name=file_name, mimetype=f"image/{file_type}")
   
     
 
