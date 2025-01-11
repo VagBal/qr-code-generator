@@ -2,22 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "qrcodegen/app.py",
+      "src": "qrcodegen/wsgi.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "qrcodegen/app.py"
+      "dest": "qrcodegen/wsgi.py"
     }
-  ],
-  "env": {
-    "PYTHON_VERSION": "3.12.0"
-  },
-  "build": {
-    "env": {
-      "LD_LIBRARY_PATH": "/usr/local/lib"
-    }
-  }
+  ]
 }

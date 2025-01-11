@@ -1,4 +1,0 @@
-include pyproject.toml
-include qrcodegen/templates/*.html
-include qrcodegen/static/css/*.css
-include qrcodegen/static/js/*.js

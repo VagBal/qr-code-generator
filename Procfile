@@ -1,0 +1,1 @@
+web: gunicorn --name=qr-code-generator --access-logfile=- --error-logfile=- qrcodegen.wsgi:app
