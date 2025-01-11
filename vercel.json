@@ -15,5 +15,10 @@
   ],
   "env": {
     "LD_LIBRARY_PATH": "/usr/local/lib"
+  },
+  "build": {
+    "env": {
+      "PIP_NO_BINARY": "Pillow"
+    }
   }
 }
