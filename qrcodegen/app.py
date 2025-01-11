@@ -90,5 +90,8 @@ def add_label_to_qr(img, label):
 
     return combined_img
 
+# Vercel entry point
+app = app
+
 if __name__ == '__main__':
     app.run(debug=True)
