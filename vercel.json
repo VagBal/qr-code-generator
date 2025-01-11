@@ -13,9 +13,8 @@
       "dest": "qrcodegen/app.py"
     }
   ],
-  "build": {
-    "env": {
-      "PIP_NO_BINARY": "Pillow"
-    }
-  }
+  "env": { 
+    "LD_LIBRARY_PATH": "/usr/local/lib:$LD_LIBRARY_PATH" 
+  }, 
+  "buildCommand": "sh build.sh"
 }
