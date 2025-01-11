@@ -16,9 +16,6 @@
   "build": {
     "env": {
       "PIP_NO_BINARY": "Pillow"
-    },
-    "commands": [
-      "apt-get update && apt-get install -y libjpeg62-turbo libfreetype6"
-    ]
+    }
   }
 }

@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "vercel-build": "./install_dependencies.sh && vercel build"
+  }
+}
