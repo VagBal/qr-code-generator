@@ -33,25 +33,32 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const response = await fetch('/generate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ url, label, fileType }),
-        });
+        try {
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url, label, fileType }),
+            });
 
-        if (response.ok) {
-            const blob = await response.blob();
-            const downloadUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.download = `${label || 'qr_code'}.${fileType}`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        } else {
-            alert('Failed to generate QR code. Please try again.');
+            if (response.ok) {
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = `${label || 'qr_code'}.${fileType}`;
+                console.log(`Downloading file: ${a.download}`);  // Add logging
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            } else {
+                console.error('Failed to generate QR code. Please try again.');
+                alert('Failed to generate QR code. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error generating QR code:', error);
+            alert('Error generating QR code. Please try again.');
         }
     });
 });
