@@ -45,12 +45,13 @@ def preview():
 def generate():
     data = request.get_json()
     url = data.get('url')
-    label = data.get('label')  # Remove default value here
+    label = data.get('label')
     file_type = data.get('fileType', 'png')
 
     if not url:
         return jsonify({"error": "URL is required"}), 400
 
+    logging.debug(f"Received data: {data}")
     logging.debug(f"Generating QR code for URL: {url}, Label: {label}, FileType: {file_type}")
 
     qr = qrcode.QRCode(box_size=10, border=4)
