@@ -51,6 +51,8 @@ def generate():
     if not url:
         return jsonify({"error": "URL is required"}), 400
 
+    logging.debug(f"Generating QR code for URL: {url}, Label: {label}, FileType: {file_type}")
+
     qr = qrcode.QRCode(box_size=10, border=4)
     qr.add_data(url)
     qr.make(fit=True)
@@ -69,6 +71,7 @@ def generate():
     buffer.seek(0)
 
     file_name = f"{label}.{file_type}" if label else f"qr_code.{file_type}"
+    logging.debug(f"File name for download: {file_name}")
     return send_file(buffer, as_attachment=True, download_name=file_name, mimetype=f"image/{file_type}")
 
 def add_label_to_qr(img, label):
