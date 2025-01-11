@@ -2,14 +2,23 @@
   "version": 2,
   "builds": [
     {
-      "src": "Dockerfile",
-      "use": "@vercel/docker"
+      "src": "qrcodegen/app.py",
+      "use": "@vercel/python",
+      "config": { "maxLambdaSize": "15mb" }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "qrcodegen/app.py"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "PIP_NO_BINARY": "Pillow"
+    },
+    "commands": [
+      "apt-get update && apt-get install -y libjpeg62-turbo libfreetype6"
+    ]
+  }
 }
